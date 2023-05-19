@@ -1,0 +1,17 @@
+Architecture Design Decisions
+
+*** After carefull analysis, these 3 message passing techniques were used:
+- REST APIs
+- gRPC
+- Message Queues(Kafka)
+
+The frontend client uses REST API to interlink with the various HTTP routes. REST was chosen because it's currently the industry standard, 
+it offers a straightforward format and it gives a high throughput in API performance.
+
+gRPC was chosen for getting/receiving large volumes of location data from users' mobile devices. The choice was made to leverage on the improved performance provided by gRPC with regards to reduction/fixation in overall payload sizes. 
+This will aid in ensuring that our implementation can handle the large volumes of location data 
+that will be sent from client mobile devices.
+
+The location ingester service utilizes a message queue (Kafka) to handle the ingested location data. This will help in achieving improved reliability (without loss of data), improved performance and also enable decoupling of our services. Using the message queue 
+in conjunction with gRPC for the ingestion of location data gives the system multi-dimensional advantages due to the benefits derived from both message passing techniques. 
+The decision to use Kafka over other messaging queues(e.g. RabbitMQ) is to ensure durability over a distributed server service  that can handle large volumes of data and ensure high throughput.
